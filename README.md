@@ -1,5 +1,4 @@
-# Ember Resolver [![Build Status](https://travis-ci.org/ember-cli/ember-resolver.svg?branch=master)](https://travis-ci.org/ember-cli/ember-resolver)
-
+# Ember Resolver [![Build Status](https://travis-ci.org/201-created/dangerously-set-unified-resolver.svg?branch=master)](https://travis-ci.org/201-created/dangerously-set-unified-resolver)
 
 This project is tracking a new resolver based on ES6 semantics that has been extracted from (and used by) the following projects:
 
