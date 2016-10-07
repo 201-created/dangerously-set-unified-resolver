@@ -15,6 +15,7 @@ export default {
     model: { definitiveCollection: 'models' },
     partial: { definitiveCollection: 'partials' },
     route: { definitiveCollection: 'routes' },
+    router: { definitiveCollection: '' },
     serializer: { definitiveCollection: 'models' },
     service: { definitiveCollection: 'services' },
     template: {
@@ -30,6 +31,11 @@ export default {
     utils: false
   },
   collections: {
+    '': {
+      types: [
+        'router'
+      ]
+    },
     components: {
       group: 'ui',
       types: ['component', 'helper', 'template']

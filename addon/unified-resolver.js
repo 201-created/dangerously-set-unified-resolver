@@ -1,20 +1,27 @@
 import Ember from 'ember';
 import ModuleRegistry from './utils/module-registry';
+import Config from './ember-config';
 
 const { DefaultResolver } = Ember;
 
 const Resolver = DefaultResolver.extend({
   init() {
     this._super(...arguments);
-
-    this._modulePrefix = `${this.namespace.modulePrefix}/src`;
+    if (!this.config) {
+      this.config = Config;
+    }
+    this._modulePrefix = `${this.namespace.modulePrefix}`; // /src
     if (!this._moduleRegistry) {
       this._moduleRegistry = new ModuleRegistry();
     }
   },
 
   expandLocalLookup(lookupString, sourceLookupString) {
-    let { type, name } = this._parseLookupString(lookupString);
+    let parsedLookupString = this._parseLookupString(lookupString);
+    if (!parsedLookupString) {
+      return null;
+    }
+    let { type, name } = parsedLookupString;
     let source = this._parseLookupString(sourceLookupString);
     let sourceCollectionConfig = this.config.collections[source.collection];
 
@@ -47,7 +54,11 @@ const Resolver = DefaultResolver.extend({
   },
 
   _resolveLookupStringToModuleName(lookupString) {
-    let { type, collection, group, isDefaultType, name } = this._parseLookupString(lookupString);
+    let parsed = this._parseLookupString(lookupString);
+    if (!parsed) {
+      return undefined;
+    }
+    let { type, collection, group, isDefaultType, name } = parsed;
 
     // Main factories have no collection
     if (name === 'main') {
@@ -113,15 +124,27 @@ const Resolver = DefaultResolver.extend({
 
   // this returns the actual module
   resolve(lookupString) {
-    let { name, exportName } = this._resolveLookupStringToModuleName(lookupString);
-    return this._moduleRegistry.get(name, exportName);
+    console.log(`unified-resolver looking up: ${lookupString}`);
+    let resolvedLookup = this._resolveLookupStringToModuleName(lookupString);
+    if (!resolvedLookup) {
+      return undefined;
+    }
+    let { name, exportName } = resolvedLookup;
+    if (this._moduleRegistry.has(name, exportName)) {
+      let resolved = this._moduleRegistry.get(name, exportName);
+      console.log(`unified-resolver found ${resolved} for ${lookupString}`);
+
+      return resolved;
+    }
+
+    return undefined;
   },
 
   _parseLookupString(lookupString) {
     let [type, name] = lookupString.split(':');
     let configForType = this.config.types[type];
     if (!configForType) {
-      throw new Error(`"${type}" not a recognized type`);
+      return undefined;
     }
 
     let { definitiveCollection: collection, fallbackCollectionPrefixes } = configForType;
