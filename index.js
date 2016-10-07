@@ -5,7 +5,7 @@ var VersionChecker = require('ember-cli-version-checker');
 
 module.exports = {
   name: 'ember-resolver',
-
+  isDevelopingAddon: function() { return true; },
   included: function() {
     this._super.included.apply(this, arguments);
 
