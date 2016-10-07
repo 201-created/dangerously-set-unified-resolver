@@ -121,7 +121,10 @@ const Resolver = DefaultResolver.extend({
   resolve(lookupString) {
     let moduleDef = this._resolveLookupStringToModuleName(lookupString);
     if (moduleDef && this._moduleRegistry.has(moduleDef.name)) {
+      console.log('resolve: ' + lookupString + ' √');
       return this._moduleRegistry.get(moduleDef.name, moduleDef.exportName);
+    } else {
+      console.log('resolve: ' + lookupString + ' []');
     }
   },
 
