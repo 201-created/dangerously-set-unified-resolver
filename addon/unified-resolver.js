@@ -1,11 +1,16 @@
 import Ember from 'ember';
 import ModuleRegistry from './utils/module-registry';
+import DefaultConfig from './ember-config';
 
 const { DefaultResolver } = Ember;
 
 const Resolver = DefaultResolver.extend({
   init() {
     this._super(...arguments);
+
+    if (!this.config) {
+      this.config = DefaultConfig;
+    }
 
     this._modulePrefix = `${this.namespace.modulePrefix}/src`;
     if (!this._moduleRegistry) {
