@@ -10,7 +10,8 @@ const Resolver = DefaultResolver.extend({
     if (!this.config) {
       this.config = Config;
     }
-    this._modulePrefix = `${this.namespace.modulePrefix}`; // /src
+    // TODO add prefix '/src' once ember-cli has been updated
+    this._modulePrefix = `${this.namespace.modulePrefix}`;
     if (!this._moduleRegistry) {
       this._moduleRegistry = new ModuleRegistry();
     }
