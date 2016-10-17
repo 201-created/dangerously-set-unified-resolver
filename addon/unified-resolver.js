@@ -3,10 +3,12 @@ import ModuleRegistry from './utils/module-registry';
 import makeDictionary from './utils/make-dictionary';
 
 const { DefaultResolver } = Ember;
+import FallbackResolver from './resolver';
 
 const Resolver = DefaultResolver.extend({
   init() {
     this._super(...arguments);
+    this._fallbackResolver = new FallbackResolver(...arguments);
 
     this._modulePrefix = `${this.namespace.modulePrefix}/src`;
     if (!this._moduleRegistry) {
@@ -134,8 +136,12 @@ const Resolver = DefaultResolver.extend({
 
   // this returns the actual module
   resolve(lookupString) {
+    let resolved = this._fallbackResolver.resolve(lookupString);
+    if (resolved) {
+      return resolved;
+    }
     let moduleDef = this._resolveLookupStringToModuleName(lookupString);
-    if (moduleDef && this._moduleRegistry.has(moduleDef.name)) {
+    if (moduleDef && this._moduleRegistry.has(moduleDef.name, moduleDef.exportName)) {
       return this._moduleRegistry.getExport(moduleDef.name, moduleDef.exportName);
     }
   },
