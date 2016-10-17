@@ -9,6 +9,8 @@ const underscore = Ember.String.underscore;
 
 module('ember-resolver/unified-resolver - fallback tests', {});
 
+// The recording registry keeps track of all the moduleName/exports that
+// it attempts to look up (through `has`, `get` or `getExport`)
 class RecordingRegistry {
   constructor() {
     this._lookups = [];
@@ -18,12 +20,17 @@ class RecordingRegistry {
     return Ember.A(this._lookups).uniq();
   }
 
+  /*
+   * not needed (yet?)
   get(moduleName) {
-    this._lookups.push(lookupName);
+    this._lookups.push(moduleName);
     
     throw new Error('RecordingRegistry raises on all `get` calls');
   }
+  */
 
+  /*
+   * not needed (yet?)
   getExport(moduleName, exportName = 'default') {
     let lookupName = moduleName;
     if (exportName !== 'default') {
@@ -33,6 +40,7 @@ class RecordingRegistry {
 
     throw new Error('RecordingRegistry raises on all `getExport` calls');
   }
+  */
 
   has(moduleName, exportName='default') {
     let lookupName = moduleName;
