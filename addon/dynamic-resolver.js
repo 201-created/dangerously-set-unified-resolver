@@ -151,7 +151,7 @@ const Resolver = DefaultResolver.extend({
 
     // Handle a collection prefix like 'template:components/my-component'
     if (fallbackCollectionPrefixes) {
-      let collectionPrefix = Object.keys(fallbackCollectionPrefixes).find(prefix => {
+      let collectionPrefix = Ember.A(Object.keys(fallbackCollectionPrefixes)).find(prefix => {
         return name.indexOf(prefix) === 0;
       });
 
