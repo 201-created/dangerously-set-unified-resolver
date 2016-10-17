@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import Resolver from 'dangerously-set-unified-resolver/unified-resolver';
+import Resolver from 'dangerously-set-unified-resolver/dynamic-resolver';
 
 let modulePrefix = 'test-prefix';
 
-module('ember-resolver/unified-resolver #expandLocalLookup', {
+module('ember-resolver/dynamic-resolver #expandLocalLookup', {
 });
 
 class FakeRegistry {

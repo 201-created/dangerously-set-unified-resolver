@@ -1,10 +1,10 @@
 /* jshint loopfunc:true */
 import { module, test } from 'qunit';
-import Resolver from 'dangerously-set-unified-resolver/unified-resolver';
+import Resolver from 'dangerously-set-unified-resolver/dynamic-resolver';
 
 let modulePrefix = 'test-namespace';
 
-module('ember-resolver/unified-resolver', {});
+module('ember-resolver/dynamic-resolver', {});
 
 class NewFakeRegistry {
   constructor({moduleOverrides}) {
@@ -34,7 +34,7 @@ function expectResolutions({ message, config, resolutions, moduleOverrides, erro
   let fakeRegistry = new NewFakeRegistry({
     moduleOverrides
   });
-  let resolver = Resolver.create({
+  let resolver = new Resolver({
     config,
     _moduleRegistry: fakeRegistry,
     namespace: {modulePrefix}

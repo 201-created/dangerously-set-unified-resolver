@@ -44,6 +44,7 @@ export default {
     },
     components: {
       group: 'ui',
+      defaultType: 'component',
       types: ['component', 'helper', 'template']
     },
     initializers: {
