@@ -24,7 +24,7 @@ class RecordingRegistry {
    * not needed (yet?)
   get(moduleName) {
     this._lookups.push(moduleName);
-    
+
     throw new Error('RecordingRegistry raises on all `get` calls');
   }
   */
@@ -102,3 +102,7 @@ expectResolutions('template:components/foo-bar', [
   `${modulePrefix}/src/ui/components/foo-bar/template`,
   `${modulePrefix}/src/ui/components/foo-bar:template`,
 ]);
+
+
+
+// {{power-selectmultiple}}

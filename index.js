@@ -4,6 +4,7 @@
 var VersionChecker = require('ember-cli-version-checker');
 var Funnel = require('broccoli-funnel');
 var MergeTrees = require('broccoli-merge-trees');
+var ModulesLintPlugin = require('./lib/modules-lint');
 
 var renameMap = {
   'src/main.js': 'app.js',
@@ -16,7 +17,15 @@ module.exports = {
   name: 'dangerously-set-unified-resolver',
 
   isDevelopingAddon: function() {
-    return true
+    return true;
+  },
+
+  lintTree: function(type, tree) {
+    if (type !== 'app') {
+      return null;
+    }
+
+    return new ModulesLintPlugin(tree);
   },
 
   included: function() {
@@ -33,15 +42,11 @@ module.exports = {
   },
 
   treeForApp() {
-    var srcTree = new Funnel('src', {
+    var srcTree = new Funnel(this.app.options.trees.src || 'src', {
       destDir: 'src'
     });
 
-    var appTree = new Funnel('app');
-
-    var unifiedTree = new MergeTrees([appTree, srcTree]);
-
-    var withAppCompatibility = new Funnel(unifiedTree, {
+    var withAppCompatibility = new Funnel(srcTree, {
       getDestinationPath: function getDestinationPath(relativePath) {
         return renameMap[relativePath] || relativePath;
       }
@@ -59,24 +64,6 @@ module.exports = {
     }
   },
 
-  treeForApp() {
-    var srcTree = new Funnel('src', {
-      destDir: 'src'
-    });
-
-    var appTree = new Funnel('app');
-
-    var unifiedTree = new MergeTrees([appTree, srcTree]);
-
-    var withAppCompatibility = new Funnel(unifiedTree, {
-      getDestinationPath: function getDestinationPath(relativePath) {
-        return renameMap[relativePath] || relativePath;
-      }
-    });
-
-    return withAppCompatibility;
-  },
-
   /**
    * Ember CLI treats 'templates' differently than the rest of app. Here
    * we tell it where our templates are.
@@ -86,11 +73,6 @@ module.exports = {
       include: ['**/*.hbs'],
       destDir: 'src'
     });
-
-    var appTree = new Funnel('app');
-    var unifiedTree = new MergeTrees([appTree, srcTree]);
-
-    return unifiedTree;
   },
 
   /**
