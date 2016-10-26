@@ -22,9 +22,11 @@ describe('modules-lint', function() {
   it('works', function() {
     var sourcePath = 'tests/mocha/fixtures';
     var node = new ModulesLintPlugin(sourcePath);
+
     builder = new broccoli.Builder(node);
     return builder.build().then(function(result) {
       expect(console.log.calledWith('in the plugin')).to.be.ok;
+      expect(console.log.calledWith('foo.txt')).to.be.ok;
   });
   });
 });
