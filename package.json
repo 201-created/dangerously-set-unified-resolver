@@ -20,9 +20,11 @@
   "author": "Robert Jackson <me@rwjblue.com>",
   "license": "MIT",
   "devDependencies": {
+    "broccoli": "^0.16.9",
     "broccoli-asset-rev": "^2.4.2",
     "broccoli-funnel": "^1.0.7",
     "broccoli-merge-trees": "^1.1.4",
+    "chai": "^3.5.0",
     "ember-cli": "2.8.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
@@ -38,7 +40,9 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
-    "loader.js": "^4.0.1"
+    "loader.js": "^4.0.1",
+    "mocha": "^3.1.2",
+    "sinon": "^1.12.2"
   },
   "keywords": [
     "ember-addon"
