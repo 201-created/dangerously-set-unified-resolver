@@ -1,9 +1,10 @@
 import RequireJSRegistry from 'dangerously-set-unified-resolver/utils/requirejs-registry';
-import { module, test} from 'qunit';
+import { ResolverConfiguration } from '@glimmer/resolver/resolver-configuration';
+import { module, test } from 'qunit';
 
 module('RequireJS Registry', {
   beforeEach() {
-   let config = {
+    let config : ResolverConfiguration = {
     app: {
       name: 'example-app',
       rootName: 'example-app'

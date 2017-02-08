@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "dangerously-set-unified-resolver/config/*": ["config/*"],
+      "dangerously-set-unified-resolver/tests/*": ["tests/*"],
+      "dangerously-set-unified-resolver/app/*": ["app/*"],
+      "dangerously-set-unified-resolver/addon/*": ["addon/*"],
+      "npm:*": ["local-types/*"],
+      "*": ["local-types/*"]
+
+    }
+  },
+  "include": [
+    "app/**/*",
+    "addon/**/*",
+    "tests/**/*"
+  ]
+}

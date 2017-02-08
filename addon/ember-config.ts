@@ -1,3 +1,5 @@
+import { ResolverConfiguration } from '@glimmer/resolver/resolver-configuration';
+
 /*
  * This config describes canonical Ember, as described in the
  * module unification spec:
@@ -5,7 +7,7 @@
  *   https://github.com/dgeb/rfcs/blob/module-unification/text/0000-module-unification.md
  *
  */
-export default {
+const config: ResolverConfiguration = {
   app: {
     name: 'my-app',
     rootName: 'my-app'
@@ -84,3 +86,5 @@ export default {
     }
   }
 };
+
+export default config;

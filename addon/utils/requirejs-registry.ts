@@ -1,16 +1,24 @@
-/* global require, requirejs */
+declare var requirejs;
+declare var require;
+declare var console;
+
+import { ModuleRegistry } from "@glimmer/resolver/module-registry";
+import ResolverConfiguration from "@glimmer/resolver/resolver-configuration";
+
 import {
   deserializeSpecifier
 } from '@glimmer/di';
 
-export default class RequireJSRegistry {
+export default class RequireJSRegistry implements ModuleRegistry {
+  private _config: ResolverConfiguration;
+  private _modulePrefix: string;
 
-  constructor(config, modulePrefix) {
+  constructor(config: ResolverConfiguration, modulePrefix: string) {
     this._config = config;
     this._modulePrefix = modulePrefix;
   }
 
-  normalize(specifier) {
+  normalize(specifier: string): string {
     let s = deserializeSpecifier(specifier);
 
     let namespace = s.namespace || s.collection;
@@ -36,12 +44,12 @@ export default class RequireJSRegistry {
     return path;
   }
 
-  has(specifier) {
+  has(specifier: string): boolean {
     let path = this.normalize(specifier);
     return path in requirejs.entries;
   }
 
-  get(specifier) {
+  get(specifier: string): any {
     let path = this.normalize(specifier);
     return require(path).default;
   }

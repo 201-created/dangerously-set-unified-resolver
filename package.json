@@ -24,6 +24,7 @@
     "@glimmer/di": "^0.1.8",
     "@glimmer/resolver": "^0.2.0",
     "@glimmer/util": "^0.21.0",
+    "@types/ember": "2.7.36",
     "broccoli-asset-rev": "^2.4.2",
     "broccoli-babel-transpiler": "^5.6.2",
     "broccoli-funnel": "^1.0.7",
@@ -39,11 +40,13 @@
     "ember-cli-release": "^0.2.9",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "^1.1.0",
+    "ember-cli-typescript": "github:emberwatch/ember-cli-typescript",
     "ember-cli-uglify": "^1.2.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
-    "loader.js": "^4.0.10"
+    "loader.js": "^4.0.10",
+    "typescript": "2.1.6"
   },
   "keywords": [
     "ember-addon"
