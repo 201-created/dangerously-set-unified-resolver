@@ -1,6 +1,6 @@
-import Resolver from 'dangerously-set-unified-resolver/unified-resolver';
+import FallbackResolver from 'dangerously-set-unified-resolver/fallback-resolver';
 import emberConfig from 'dangerously-set-unified-resolver/ember-config';
 
-export default Resolver.extend({
+export default FallbackResolver.extend({
   config: emberConfig
 });
