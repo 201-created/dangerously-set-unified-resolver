@@ -40,9 +40,6 @@ export default {
     '-view-registry': { definitiveCollection: 'main' },
     '-bucket-cache': { definitiveCollection: 'main' }
   },
-  unresolvableCollections: {
-    utils: false
-  },
   collections: {
     'main': {
       types: ['router', '-bucket-cache', 'component-lookup', '-view-registry', 'event_dispatcher', 'application', 'location', 'renderer']
@@ -74,6 +71,9 @@ export default {
     },
     services: {
       types: ['service']
+    },
+    utils: {
+      unresolvable: true
     },
     views: {
       types: ['view']

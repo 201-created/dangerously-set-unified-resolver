@@ -41,17 +41,17 @@ module('RequireJS Registry', {
 });
 
 test('Normalize', function(assert) {
-  assert.expect(6);
+  assert.expect(8);
 
   [
     [ 'router:/my-app/main/main', 'my-app/src/router' ],
     [ 'route:/my-app/routes/application', 'my-app/src/ui/routes/application/route' ],
     [ 'template:/my-app/routes/application', 'my-app/src/ui/routes/application/template' ],
     [ 'component:/my-app/components/my-input', 'my-app/src/ui/components/my-input/component' ],
-
     [ 'template:/my-app/routes/components/my-input', 'my-app/src/ui/components/my-input/template' ],
-    // have to check why components appears twice in this one, but it works...
-    [ 'template:/my-app/components/components/my-input', 'my-app/src/ui/components/my-input/template' ]
+    [ 'template:/my-app/components/my-input', 'my-app/src/ui/components/my-input/template' ],
+    [ 'component:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/component' ],
+    [ 'template:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/template' ]
   ]
   .forEach(([ lookupString, expected ]) => {
     assert.equal(this.registry.normalize(lookupString), expected);

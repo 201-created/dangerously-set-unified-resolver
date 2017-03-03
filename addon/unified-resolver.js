@@ -35,13 +35,43 @@ const Resolver = DefaultResolver.extend({
     }
   },
 
+  // test case fullName: "component:my-button"
+  // source: "template:my-app/templates/src/ui/components/my-input/template/hbs"
+  // "template:components/my-button" -> "template:components/my-input/my-button"
+  // Here's a super-hacky and hardcoded way to parse the namespace that we want to a
+
+  // template:/my-app/components/
+  expandLocalLookup(fullName, source) {
+    let namespaceRegex = /template:(.*)\/templates\/src\/ui\/(.*)\/template\/hbs/;
+    let match = source.match(namespaceRegex);
+    let appName = match[1];
+    let namespace = match[2];
+
+    match = fullName.match(/(.*):(components\/)?(.*)/);
+    let type = match[1];
+    let name = match[3];
+
+    let expandedPath = `${type}:/${appName}/${namespace}/${name}`;
+
+    // TODO non-performant. Need a non-error-throwing way of checking
+    // if the expandedPath actually exists.
+    try {
+      this.resolve(expandedPath);
+    } catch(e) {
+      console.log(`expandedLocalLookup ERROR ${fullName} ${source} --> ${expandedPath}`);
+      return;
+    }
+
+    console.log(`expandLocalLookup ${fullName} ${source} --> ${expandedPath}`);
+    return expandedPath;
+  },
+
   resolve(lookupString) {
     return this._resolverCache[lookupString] || (this._resolverCache[lookupString] = this._resolve(lookupString));
   },
 
   _resolve(lookupString) {
     let normalized = this.normalize(lookupString);
-    console.log(`normalize ${lookupString} -> ${normalized}`);
     return this._glimmerResolver.resolve(normalized);
   }
 });

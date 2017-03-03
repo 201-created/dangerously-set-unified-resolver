@@ -12,25 +12,35 @@ export default class RequireJSRegistry {
 
   normalize(specifier) {
     let s = deserializeSpecifier(specifier);
-
-    let namespace = s.namespace || s.collection;
-    let type = namespace === 'main' ? s.type : namespace;
-    let collection = this._config.collections[namespace];
-    let group = collection && collection.group;
+    let collectionDefinition = this._config.collections[s.collection];
+    let group = collectionDefinition && collectionDefinition.group;
+    let segments = [ s.rootName, this._modulePrefix ];
 
     if (group) {
-      type = `${group}/${type}`;
+      segments.push(group);
     }
 
-    let path = `${s.rootName}/${this._modulePrefix}/${type}`;
+    // Special case to handle definiteCollection for templates
+    // eventually want to find a better way to address.
+    let ignoreCollection = s.type === 'template' &&
+      s.collection === 'routes' &&
+      s.namespace === 'components';
+
+    if (s.collection !== 'main' && !ignoreCollection) {
+      segments.push(s.collection);
+    }
+
+    if (s.namespace) {
+      segments.push(s.namespace);
+    }
 
     if (s.name !== 'main') {
-      path += `/${s.name}`;
+      segments.push(s.name);
     }
 
-    if (s.collection !== 'main') {
-      path += `/${s.type}`;
-    }
+    segments.push(s.type);
+
+    let path = segments.join('/');
 
     console.log(`requirejs ${specifier} -> ${path}`);
     return path;
