@@ -13,6 +13,10 @@ export default class RequireJSRegistry {
   normalize(specifier) {
     let s = deserializeSpecifier(specifier);
 
+    // This is hacky solution to get around the fact that Ember
+    // doesn't know it is requesting a partial. It requests something like
+    // 'template:/my-app/routes/-author'
+    // Would be better to request 'template:my-app/partials/author'
     let isPartial = s.type === 'template' && s.name[0] === '-';
     if (isPartial) {
       s.name = s.name.slice(1);
@@ -29,6 +33,8 @@ export default class RequireJSRegistry {
 
     // Special case to handle definiteCollection for templates
     // eventually want to find a better way to address.
+    // Dgeb wants to find a better way to handle these
+    // in config without needing definiteCollections.
     let ignoreCollection = s.type === 'template' &&
       s.collection === 'routes' &&
       s.namespace === 'components';

@@ -35,12 +35,9 @@ const Resolver = DefaultResolver.extend({
     }
   },
 
-  // test case fullName: "component:my-button"
-  // source: "template:my-app/templates/src/ui/components/my-input/template/hbs"
-  // "template:components/my-button" -> "template:components/my-input/my-button"
-  // Here's a super-hacky and hardcoded way to parse the namespace that we want to a
-
-  // template:/my-app/components/
+  // This makes some hacky assumptions that we only look up components.
+  // Need to think of a more general solution that can be configurable.
+  // See the tests for examples of what gets passed from Ember.
   expandLocalLookup(fullName, source) {
     let namespaceRegex = /template:(.*)\/templates\/src\/ui\/(.*)\/template\/hbs/;
     let match = source.match(namespaceRegex);
