@@ -10,6 +10,7 @@ module('RequireJS Registry', {
     },
     types: {
       component: { definitiveCollection: 'components' },
+      partial: { definiteCollection: 'partials' },
       route: { definitiveCollection: 'routes' },
       router: { definitiveCollection: 'main' },
       template: {
@@ -27,6 +28,10 @@ module('RequireJS Registry', {
         group: 'ui',
         types: ['component', 'helper', 'template']
       },
+      partials: {
+        group: 'ui',
+        types: [ 'template' ]
+      },
       routes: {
         group: 'ui',
         privateCollections: ['components'],
@@ -41,7 +46,7 @@ module('RequireJS Registry', {
 });
 
 test('Normalize', function(assert) {
-  assert.expect(8);
+  assert.expect(9);
 
   [
     [ 'router:/my-app/main/main', 'my-app/src/router' ],
@@ -51,7 +56,8 @@ test('Normalize', function(assert) {
     [ 'template:/my-app/routes/components/my-input', 'my-app/src/ui/components/my-input/template' ],
     [ 'template:/my-app/components/my-input', 'my-app/src/ui/components/my-input/template' ],
     [ 'component:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/component' ],
-    [ 'template:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/template' ]
+    [ 'template:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/template' ],
+    [ 'template:/my-app/routes/-author', 'my-app/src/ui/partials/author' ]
   ]
   .forEach(([ lookupString, expected ]) => {
     assert.equal(this.registry.normalize(lookupString), expected);

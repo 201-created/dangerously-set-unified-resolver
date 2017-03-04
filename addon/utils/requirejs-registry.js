@@ -12,6 +12,13 @@ export default class RequireJSRegistry {
 
   normalize(specifier) {
     let s = deserializeSpecifier(specifier);
+
+    let isPartial = s.type === 'template' && s.name[0] === '-';
+    if (isPartial) {
+      s.name = s.name.slice(1);
+      s.collection = 'partials';
+    }
+
     let collectionDefinition = this._config.collections[s.collection];
     let group = collectionDefinition && collectionDefinition.group;
     let segments = [ s.rootName, this._modulePrefix ];
@@ -38,7 +45,9 @@ export default class RequireJSRegistry {
       segments.push(s.name);
     }
 
-    segments.push(s.type);
+    if (!isPartial) {
+      segments.push(s.type);
+    }
 
     let path = segments.join('/');
 
