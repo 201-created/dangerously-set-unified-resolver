@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import makeDictionary from './utils/make-dictionary';
 import GlimmerResolver from '@glimmer/resolver/resolver';
 import RequireJSRegistry from './utils/requirejs-registry';
 
@@ -10,12 +9,14 @@ const Resolver = DefaultResolver.extend({
   init() {
     this._super(...arguments);
 
-    this._glimmerRegistry = new RequireJSRegistry(this.config, 'src');
-    this._glimmerResolver = new GlimmerResolver(this.config, this._glimmerRegistry);
-    this._resolverCache = makeDictionary();
+    if (!this.glimmerRegistry) {
+      this.glimmerRegistry = new RequireJSRegistry(this.config, 'src');
+    }
+
+    this._glimmerResolver = new GlimmerResolver(this.config, this.glimmerRegistry);
   },
 
-    normalize: function(fullName) {
+  normalize(fullName) {
     // A) Convert underscores to dashes
     // B) Convert camelCase to dash-case, except for helpers where we want to avoid shadowing camelCase expressions
     // C) replace `.` with `/` in order to make nested controllers work in the following cases
@@ -23,7 +24,7 @@ const Resolver = DefaultResolver.extend({
     //      2. `{{render "posts/post"}}`
     //      3. `this.render('posts/post')` from Route
 
-    var split = fullName.split(':');
+    let split = fullName.split(':');
     if (split.length > 1) {
       if (split[0] === 'helper') {
         return split[0] + ':' + split[1].replace(/_/g, '-');
@@ -63,13 +64,9 @@ const Resolver = DefaultResolver.extend({
     return expandedPath;
   },
 
-  resolve(lookupString) {
-    return this._resolverCache[lookupString] || (this._resolverCache[lookupString] = this._resolve(lookupString));
-  },
-
-  _resolve(lookupString) {
+  resolve(lookupString, source) {
     let normalized = this.normalize(lookupString);
-    return this._glimmerResolver.resolve(normalized);
+    return this._glimmerResolver.resolve(normalized, source);
   }
 });
 
