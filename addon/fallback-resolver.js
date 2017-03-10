@@ -10,7 +10,7 @@ export default UnifiedResolver.extend({
     this._fallbackResolver.namespace = this.namespace;
   },
 
-  _resolve() {
+  resolve() {
     return this._fallbackResolver.resolve(...arguments) || this._super(...arguments);
   }
 });
