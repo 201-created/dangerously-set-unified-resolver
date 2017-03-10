@@ -40,32 +40,29 @@ const Resolver = DefaultResolver.extend({
   // Need to think of a more general solution that can be configurable.
   // See the tests for examples of what gets passed from Ember.
   expandLocalLookup(fullName, source) {
+    if (!source) { return; }
     let namespaceRegex = /template:(.*)\/templates\/src\/ui\/(.*)\/template\/hbs/;
     let match = source.match(namespaceRegex);
+
+    if (!match || match.length < 3) { return; }
     let appName = match[1];
     let namespace = match[2];
 
     match = fullName.match(/(.*):(components\/)?(.*)/);
+    if (!match || match.length < 4) { return; }
     let type = match[1];
     let name = match[3];
 
     let expandedPath = `${type}:/${appName}/${namespace}/${name}`;
+    let exists = this.glimmerRegistry.has(this._glimmerResolver.identify(expandedPath));
+    console.log(`expandLocalLookup: ${fullName} ${source} -> ${expandedPath} ${exists}`);
 
-    // TODO non-performant. Need a non-error-throwing way of checking
-    // if the expandedPath actually exists.
-    try {
-      this.resolve(expandedPath);
-    } catch(e) {
-      console.log(`expandedLocalLookup ERROR ${fullName} ${source} --> ${expandedPath}`);
-      return;
-    }
-
-    console.log(`expandLocalLookup ${fullName} ${source} --> ${expandedPath}`);
-    return expandedPath;
+    return exists && expandedPath;
   },
 
   resolve(lookupString, source) {
     let normalized = this.normalize(lookupString);
+    console.log(`resolving ${lookupString} source: ${source}`);
     return this._glimmerResolver.resolve(normalized, source);
   }
 });

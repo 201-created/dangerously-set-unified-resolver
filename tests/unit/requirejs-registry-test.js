@@ -1,47 +1,48 @@
 import RequireJSRegistry from 'dangerously-set-unified-resolver/utils/requirejs-registry';
 import { module, test} from 'qunit';
 
-module('RequireJS Registry', {
-  beforeEach() {
-   let config = {
-    app: {
-      name: 'example-app',
-      rootName: 'example-app'
-    },
-    types: {
-      component: { definitiveCollection: 'components' },
-      partial: { definiteCollection: 'partials' },
-      route: { definitiveCollection: 'routes' },
-      router: { definitiveCollection: 'main' },
-      template: {
-        definitiveCollection: 'routes',
-        fallbackCollectionPrefixes: {
-          'components': 'components'
-        }
-      }
-    },
-    collections: {
-      'main': {
-        types: ['router']
-      },
-      components: {
-        group: 'ui',
-        types: ['component', 'helper', 'template']
-      },
-      partials: {
-        group: 'ui',
-        types: [ 'template' ]
-      },
-      routes: {
-        group: 'ui',
-        privateCollections: ['components'],
-        types: ['route', 'controller', 'template']
+export let config = {
+  app: {
+    name: 'example-app',
+    rootName: 'example-app'
+  },
+  types: {
+    component: { definitiveCollection: 'components' },
+    partial: { definiteCollection: 'partials' },
+    route: { definitiveCollection: 'routes' },
+    router: { definitiveCollection: 'main' },
+    template: {
+      definitiveCollection: 'routes',
+      fallbackCollectionPrefixes: {
+        'components': 'components'
       }
     }
-  };
+  },
+  collections: {
+    'main': {
+      types: ['router']
+    },
+    components: {
+      group: 'ui',
+      types: ['component', 'helper', 'template']
+    },
+    partials: {
+      group: 'ui',
+      types: [ 'template' ]
+    },
+    routes: {
+      group: 'ui',
+      privateCollections: ['components'],
+      types: ['route', 'controller', 'template']
+    }
+  }
+};
 
-  this.config = config;
-  this.registry = new RequireJSRegistry(this.config, 'src');
+module('RequireJS Registry', {
+  beforeEach() {
+
+    this.config = config;
+    this.registry = new RequireJSRegistry(this.config, 'src');
   }
 });
 
