@@ -60,6 +60,9 @@ export default {
       group: 'data',
       types: ['model', 'adapter', 'serializer']
     },
+    locations: {
+      types: ['location']
+    },
     partials: {
       group: 'ui',
       types: ['partial']

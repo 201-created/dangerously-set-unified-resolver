@@ -45,6 +45,8 @@ export default class RequireJSRegistry {
 
     if (s.namespace) {
       segments.push(s.namespace);
+    } else if (s.type === 'location') {
+      segments.push('locations');
     }
 
     if (s.name !== 'main') {

@@ -8,7 +8,9 @@ export let config = {
   },
   types: {
     component: { definitiveCollection: 'components' },
+    location: { definitiveCollection: 'locations' },
     partial: { definiteCollection: 'partials' },
+    service: { definitiveCollection: 'services' },
     route: { definitiveCollection: 'routes' },
     router: { definitiveCollection: 'main' },
     template: {
@@ -26,6 +28,9 @@ export let config = {
       group: 'ui',
       types: ['component', 'helper', 'template']
     },
+    locations: {
+      types: ['location']
+    },
     partials: {
       group: 'ui',
       types: [ 'template' ]
@@ -34,6 +39,9 @@ export let config = {
       group: 'ui',
       privateCollections: ['components'],
       types: ['route', 'controller', 'template']
+    },
+    services: {
+      types: ['service']
     }
   }
 };
@@ -47,7 +55,7 @@ module('RequireJS Registry', {
 });
 
 test('Normalize', function(assert) {
-  assert.expect(9);
+  assert.expect(11);
 
   [
     [ 'router:/my-app/main/main', 'my-app/src/router' ],
@@ -58,9 +66,11 @@ test('Normalize', function(assert) {
     [ 'template:/my-app/components/my-input', 'my-app/src/ui/components/my-input/template' ],
     [ 'component:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/component' ],
     [ 'template:/my-app/components/my-input/my-button', 'my-app/src/ui/components/my-input/my-button/template' ],
-    [ 'template:/my-app/routes/-author', 'my-app/src/ui/partials/author' ]
+    [ 'template:/my-app/routes/-author', 'my-app/src/ui/partials/author' ],
+    [ 'service:/my-app/services/auth', 'my-app/src/services/auth/service' ],
+    [ 'location:/my-app/main/auth-dependent', 'my-app/src/locations/auth-dependent/location' ]
   ]
   .forEach(([ lookupString, expected ]) => {
-    assert.equal(this.registry.normalize(lookupString), expected);
+    assert.equal(this.registry.normalize(lookupString), expected, `normalize ${lookupString} -> ${expected}`);
   });
 });
