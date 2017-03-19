@@ -27,22 +27,22 @@ test('expandLocalLookup returns absolute specifier when the registry has it.', f
     [
       'component:my-button',
       'template:my-app/templates/src/ui/routes/index/template/hbs',
-      'component:/my-app/routes/index/my-button'
+      'component:/my-app/routes/index/-components/my-button'
     ],
     [
       'template:components/my-button',
       'template:my-app/templates/src/ui/routes/index/template/hbs',
-      'template:/my-app/routes/index/my-button'
+      'template:/my-app/routes/index/-components/my-button'
     ],
     [
       'component:my-button',
       'template:my-app/templates/src/ui/components/my-input/template/hbs',
-      'component:/my-app/components/my-input/my-button'
+      'component:/my-app/components/my-input/-components/my-button'
     ],
     [
       'template:components/my-button',
       'template:my-app/templates/src/ui/components/my-input/template/hbs',
-      'template:/my-app/components/my-input/my-button'
+      'template:/my-app/components/my-input/-components/my-button'
     ]
   ].forEach(([ fullName, source, expected ]) => {
     this.registerPath(expected);

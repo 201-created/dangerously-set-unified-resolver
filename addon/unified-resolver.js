@@ -53,7 +53,7 @@ const Resolver = DefaultResolver.extend({
     let type = match[1];
     let name = match[3];
 
-    let expandedPath = `${type}:/${appName}/${namespace}/${name}`;
+    let expandedPath = `${type}:/${appName}/${namespace}/-components/${name}`;
     let exists = this.glimmerRegistry.has(this._glimmerResolver.identify(expandedPath));
     console.log(`expandLocalLookup: ${fullName} ${source} -> ${expandedPath} ${exists}`);
 
