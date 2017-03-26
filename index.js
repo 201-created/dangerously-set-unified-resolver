@@ -8,9 +8,6 @@ var path = require('path');
 
 var renameMap = {
   'src/main.js': 'app.js',
-  'src/resolver.js': 'resolver.js',
-  'src/ui/styles/app.css': 'styles/app.css',
-  'src/ui/index.html': 'index.html'
 };
 
 module.exports = {
