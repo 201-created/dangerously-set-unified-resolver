@@ -22,6 +22,29 @@ const Resolver = DefaultResolver.extend({
 
   normalize: null,
 
+  // This makes some hacky assumptions that we only look up components.
+  // Need to think of a more general solution that can be configurable.
+  // See the tests for examples of what gets passed from Ember.
+  expandLocalLookup(fullName, source) {
+    if (!source) { return; }
+    let namespaceRegex = /template:(.*)\/templates\/src\/ui\/(.*)\/template\/hbs/;
+    let match = source.match(namespaceRegex);
+
+    if (!match || match.length < 3) { return; }
+    let appName = match[1];
+    let namespace = match[2];
+
+    match = fullName.match(/(.*):(components\/)?(.*)/);
+    if (!match || match.length < 4) { return; }
+    let type = match[1];
+    let name = match[3];
+
+    let expandedPath = `${type}:/${appName}/${namespace}/-components/${name}`;
+    let exists = this.glimmerRegistry.has(this._glimmerResolver.identify(expandedPath));
+
+    return exists && expandedPath;
+  },
+
   resolve(lookupString) {
     return this._resolve(lookupString);
   },
