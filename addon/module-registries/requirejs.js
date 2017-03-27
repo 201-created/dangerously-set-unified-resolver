@@ -5,9 +5,11 @@ import {
 
 export default class RequireJSRegistry {
 
-  constructor(config, modulePrefix) {
+  constructor(config, modulePrefix, _requirejs = requirejs, _require = require) {
     this._config = config;
     this._modulePrefix = modulePrefix;
+    this.requirejs = _requirejs;
+    this.require = _require;
   }
 
   normalize(specifier) {
@@ -64,11 +66,11 @@ export default class RequireJSRegistry {
 
   has(specifier) {
     let path = this.normalize(specifier);
-    return path in requirejs.entries;
+    return path in this.requirejs.entries;
   }
 
   get(specifier) {
     let path = this.normalize(specifier);
-    return require(path).default;
+    return this.require(path).default;
   }
 }
