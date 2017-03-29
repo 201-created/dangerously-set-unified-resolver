@@ -44,6 +44,11 @@ test('expandLocalLookup returns absolute specifier when the registry has it.', f
       'template:my-app/templates/src/ui/components/my-input/template/hbs',
       'template:/my-app/components/my-input/-components/my-button'
     ]
+    // [
+    //   'component:popup-click-handler',
+    //   'template:src/ui/routes/application/template.hbs',
+    //   'component:routes/application/-components/popup-click-handler'
+    // ]
   ].forEach(([ fullName, source, expected ]) => {
     this.registerPath(expected);
     assert.equal(this.resolver.expandLocalLookup(fullName, source), expected, `expected ${expected} for ${fullName} from ${source}.`);
